@@ -7,7 +7,7 @@ $(document).ready(function() {
   function earthquakeList() {
     $.ajax({
       method: "GET",
-      url: "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2017-06-30&endtime=2017-07-06&limit=10",
+      url: "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2017-06-30&endtime=2017-07-06&limit=100",
       success: onSuccess
     });
   }
@@ -29,7 +29,7 @@ $(document).ready(function() {
       lng: -122.44
     };
     let map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 3,
+      zoom: 2,
       center: theLocation
     });
 
@@ -40,9 +40,15 @@ $(document).ready(function() {
       let theLocation = $(responseData.features[i].geometry.coordinates);
       let latLng = new google.maps.LatLng(theLocation[1], theLocation[0]);
       console.log(theLocation);
+      // resizing the earthquake png to fit on the Google Map
+      let image = {
+        url: 'images/earthquake.png',
+        scaledSize: new google.maps.Size(22, 32)
+      };
       let marker = new google.maps.Marker({
         position: latLng,
-        map: map
+        map: map,
+        icon: image
       });
     })
 
